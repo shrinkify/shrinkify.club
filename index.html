@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Primary Meta Tags -->
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="https://about.creeperhub.com/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shrinkify - Coming Soon</title>
+    <meta name="title" content="Shrinkify - Coming Soon" />
+    <meta name="description" content="Soon Shrinkify Will be available as URL shortener." />
+    <meta name="author" content="Giocoliere" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- Open Graph / Discord / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://shrinkify.club/" />
+    <meta property="og:title" content="Shrinkify - Coming Soon" />
+    <meta property="og:description" content="Shrinkify URL shortener. Coming soon™" />
+    <meta property="og:image" content="https://about.creeperhub.com/og-image.png" />
+    <meta property="og:site_name" content="Shrinkify" />
+
+    <!-- Twitter / X -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://shrinkify.club/" />
+    <meta property="twitter:title" content="Shrinkify - Coming Soon" />
+    <meta property="twitter:description" content="Shrinkify URL shortener. Coming soon™" />
+    <meta property="twitter:image" content="https://about.creeperhub.com/og-image.png" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --shrink-header-bg: #ffffff;
+            --shrink-header-text: #000000;
+            --shrink-header-border: #e5e5e5;
+            --shrink-header-dropdown-bg: #ffffff;
+        }
+
+        body {
+            background-color: #ffffff;
+            font-family: 'Inter', system-ui, sans-serif;
+            overflow-x: hidden;
+            color: #000000;
+        }
+
+        /* Subtle Background Grid */
+        .grid-bg {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(#f0f0f0 1px, transparent 1px),
+                linear-gradient(90deg, #f0f0f0 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, #000 40%, transparent 100%);
+            -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, #000 40%, transparent 100%);
+            z-index: -1;
+        }
+
+        /* Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f4f4f4; }
+        ::-webkit-scrollbar-thumb { background: #d4d4d4; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #000000; }
+    </style>
+</head>
+<body class="antialiased h-screen">
+
+    <!-- Background Grid -->
+    <div class="grid-bg"></div>
+
+    <!-- Global Header Root -->
+    <div id="header-root"></div>
+
+    <!-- Main Content -->
+    <main class="pt-9 relative z-10 flex flex-col items-center justify-center h-screen w-screen px-6 text-center">
+        
+        <div class="reveal">
+            <h1 class="text-6xl sm:text-8xl md:text-[12rem] font-black tracking-tighter leading-none mb-4">
+                COMING<br>SOON
+            </h1>
+            <p class="text-2xl sm:text-3xl md:text-4xl font-bold text-black/40 tracking-[0.2em] uppercase">
+                soon&#8482;
+            </p>
+            <!-- About Button -->
+            <a href="https://about.creeperhub.com" target="_blank" class="mt-10 inline-block px-8 py-3 border border-black/20 text-black font-bold uppercase tracking-wider rounded-lg transition-all duration-300 hover:border-black hover:bg-black hover:text-white">
+                About
+            </a>
+            
+        </div>
+
+    </main>
+
+    <script>
+        // --- GLOBAL HEADER LOGIC ---
+        /* 
+         * INSTRUCTIONS: Add `status: "current"` to any object below 
+         * to make the CURRENT tag appear next to it in the dropdown!
+         */
+        const NETWORK_DATA = {
+            "CREATIVITATIS": [
+                { name: "Creativitatis", url: "https://creativitatis.dev", description: "Soon™" },
+                { name: "Creativitatis Blog", url: "https://creativitatis.blog", description: "The blog - Soon™" },
+            ],
+            "CREEPERHUB ECOSYSTEM": [
+                { name: "CreeperHUB", url: "https://creeperhub.net", description: "Ex-main hub, soon v3.0" },
+                { name: "CreeperHUB.com", url: "https://about.creeperhub.com", description: "CreeperHUB hosted side projects" },
+            ],
+            "UTILITIES & APPS": [
+                { name: "creepers.sbs", url: "https://creepers.sbs", description: "Free subdomain service" },
+                { name: "Otakuforge", url: "https://otakuforge.org", description: "Upcoming social network" },
+                { name: "Shrinkify", url: "#", description: "URL shortener", status:"current" },
+            ],
+            "THE CREATOR": [
+                { name: "Giocoliere", url: "https://giocoliere.dev", description: "Personal Wesbsite v0.7 :P" },
+                { name: "gioco.help", url: "https://gioco.help", description: "Support portal + archives" },
+            ],
+            "SHORT URL": [
+                { name: "tinyy.dev", url: "https://tinyy.dev", description: "Short links for projects + articles" },
+            ],
+        };
+
+
+        function initHeader(currentSiteId) {
+            const root = document.getElementById('header-root');
+            root.innerHTML = `
+                <div class="fixed top-0 left-0 right-0 z-[9999] flex items-center px-4 sm:px-6 h-9 justify-between transition-all duration-200" 
+                     style="background-color: var(--shrink-header-bg); color: var(--shrink-header-text); border-bottom: 1px solid var(--shrink-header-border);">
+                    <a href="https://shrinkify.club" class="text-xs font-bold tracking-widest uppercase hover:opacity-60 transition-opacity flex items-center gap-2">
+                        <span class="w-2 h-2 bg-black rounded-full"></span>
+                        <span class="hidden xs:inline sm:inline">CREATIVITATIS</span>
+                        <span class="xs:hidden sm:hidden">C.HUB</span>
+                    </a>
+                    <div class="relative h-full flex items-center" id="network-dropdown-wrapper">
+                        <button id="dropdown-btn" class="flex items-center gap-1.5 text-xs uppercase tracking-wider hover:opacity-60 transition-opacity py-2 px-2 -mr-2">
+                            Network 
+                            <svg id="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </button>
+                        <div id="dropdown-menu" class="hidden absolute top-9 right-0 w-[calc(100vw-2rem)] sm:w-[600px] max-w-[600px] border border-black/10 p-6 sm:p-8 grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 shadow-xl transition-all duration-200 origin-top-right rounded-bl-xl rounded-br-xl bg-white max-h-[80vh] overflow-y-auto">
+                            ${Object.entries(NETWORK_DATA).map(([category, sites]) => `
+                                <div>
+                                    <h3 class="text-[10px] font-bold uppercase tracking-widest text-black/40 mb-4 border-b border-black/10 pb-2">${category}</h3>
+                                    <ul class="space-y-3">
+                                        ${sites.map(site => {
+                                            // Check if it's current either by ID or by the new status property
+                                            const isCurrent = currentSiteId === site.name || site.status === 'current';
+                                            return `
+                                                <li>
+                                                    <a href="${isCurrent ? '#' : site.url}" class="block group ${isCurrent ? 'cursor-default' : 'hover:bg-black/5 p-2 -m-2 rounded-md'}">
+                                                        <span class="flex items-center gap-2 text-sm font-medium ${isCurrent ? 'text-black' : 'text-black/80 group-hover:text-black'}">
+                                                            ${site.name}
+                                                            ${isCurrent ? '<span class="text-[9px] bg-black/10 text-black px-1.5 py-0.5 rounded border border-black/10">CURRENT</span>' : ''}
+                                                        </span>
+                                                        ${site.description ? `<p class="text-[11px] text-black/50 mt-1">${site.description}</p>` : ''}
+                                                    </a>
+                                                </li>
+                                            `;
+                                        }).join('')}
+                                    </ul>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const wrapper = document.getElementById('network-dropdown-wrapper');
+            const menu = document.getElementById('dropdown-menu');
+            const arrow = document.getElementById('dropdown-arrow');
+            const btn = document.getElementById('dropdown-btn');
+
+            // Desktop Hover Logic
+            wrapper.addEventListener('mouseenter', () => {
+                if (window.innerWidth >= 640) {
+                    menu.classList.remove('hidden');
+                    arrow.style.transform = 'rotate(180deg)';
+                }
+            });
+            wrapper.addEventListener('mouseleave', () => {
+                if (window.innerWidth >= 640) {
+                    menu.classList.add('hidden');
+                    arrow.style.transform = 'rotate(0deg)';
+                }
+            });
+
+            // Mobile/Click Logic
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (window.innerWidth < 640) { 
+                    menu.classList.toggle('hidden');
+                    arrow.style.transform = menu.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+                }
+            });
+
+            // Close dropdown if clicked outside on mobile
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth < 640 && !wrapper.contains(e.target)) {
+                    menu.classList.add('hidden');
+                    arrow.style.transform = 'rotate(0deg)';
+                }
+            });
+        }
+
+        initHeader('CreeperHUB Tech');
+
+        // --- SCROLL REVEAL ANIMATION ---
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        reveals.forEach(reveal => observer.observe(reveal));
+    </script>
+</body>
+</html>
